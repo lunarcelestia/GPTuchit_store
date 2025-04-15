@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>GPTuchit - Обучение написанию промптов</title>
+</head>
+<body>
+    <header>
+        <div class="logo">GPTuchit</div>
+        <nav class="menu">
+            <button onclick="showPage('home')">Главная страница</button>
+            <button onclick="showPage('cart')">Корзина</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <img src="hero-image.jpg" alt="Обучение" class="hero-image">
+    </section>
+
+    <div class="courses-container" id="coursesContainer">
+        <!-- Курс 1 -->
+        <div class="course" onclick="showCourseDetails('Курс 1')">
+            <img src="course1.jpg" alt="Курс 1" class="course-image">
+            <h3>Курс 1: Введение в написание промптов</h3>
+        </div>
+
+        <!-- Курс 2 -->
+        <div class="course" onclick="showCourseDetails('Курс 2')">
+            <img src="course2.jpg" alt="Курс 2" class="course-image">
+            <h3>Курс 2: Продвинутые техники промптинга</h3>
+        </div>
+
+        <!-- Курс 3 -->
+        <div class="course" onclick="showCourseDetails('Курс 3')">
+            <img src="course3.jpg" alt="Курс 3" class="course-image">
+            <h3>Курс 3: Использование GPT в бизнесе</h3>
+        </div>
+
+        <!-- Курс 4 -->
+        <div class="course" onclick="showCourseDetails('Курс 4')">
+            <img src="course4.jpg" alt="Курс 4" class="course-image">
+            <h3>Курс 4: Креативный подход к промптам</h3>
+        </div>
+
+        <!-- Бесплатный курс -->
+        <div class="course" onclick="showCourseDetails('Бесплатный курс')">
+            <img src="free-course.jpg" alt="Бесплатный курс" class="course-image">
+            <h3>Бесплатный курс: Основы работы с GPT</h3>
+        </div>
+    </div>
+
+    <div class="course-popup" id="coursePopup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <h2 id="popupTitle"></h2>
+            <p id="popupDescription"></p>
+            <button onclick="addToCart()">Добавить в корзину</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
