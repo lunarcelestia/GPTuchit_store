@@ -1,0 +1,64 @@
+﻿/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Стиль для заголовка */
+.header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Контейнер для курсов */
+.courses-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px;
+}
+
+/* Стиль для курса */
+.course-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 300px;
+    transition: transform 0.2s;
+}
+
+    .course-card:hover {
+        transform: scale(1.05);
+    }
+
+/* Заголовок курса */
+.course-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+/* Описание курса */
+.course-description {
+    font-size: 1em;
+    margin-bottom: 15px;
+}
+
+/* Кнопка добавить в корзину */
+.add-to-cart {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .add-to-cart:hover {
+        background-color: #218838;
+    }
