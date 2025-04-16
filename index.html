@@ -11,7 +11,7 @@
         <div class="header-top">
             <h1>GPTUchit</h1>
             <div class="auth-buttons">
-                <button class="login-btn">Войти</button>
+                <button class="login-btn" onclick="showLoginMenu()">Войти</button>
                 <button class="register-btn" onclick="showAuthMenu()">Регистрация</button>
             </div>
             <button class="theme-toggle" id="themeToggle">
@@ -81,11 +81,11 @@
                 <h2 class="auth-menu-title">Регистрация</h2>
                 <button class="auth-menu-close" onclick="closeAuthMenu()">&times;</button>
             </div>
-            <form class="auth-form" novalidate>
-                <input type="text" placeholder="Имя">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Пароль">
-                <input type="password" placeholder="Подтвердите пароль">
+            <form class="auth-form" id="registerForm" novalidate>
+                <input type="text" name="name" placeholder="Имя" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Пароль" required>
+                <input type="password" name="confirmPassword" placeholder="Подтвердите пароль" required>
                 <button type="submit">Зарегистрироваться</button>
             </form>
             <div class="auth-menu-footer">
@@ -101,14 +101,13 @@
                 <h2 class="auth-menu-title">Вход в аккаунт</h2>
                 <button class="auth-menu-close" onclick="closeLoginMenu()">&times;</button>
             </div>
-            <form class="auth-form" novalidate>
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Пароль">
+            <form class="auth-form" id="loginForm" novalidate>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Пароль" required>
                 <button type="submit">Войти</button>
             </form>
             <div class="auth-menu-footer">
                 <p>Нет аккаунта? <a href="#" onclick="showAuthMenu()">Зарегистрироваться</a></p>
-                <p><a href="#" onclick="showForgotPassword()">Забыли пароль?</a></p>
             </div>
         </div>
     </div>
@@ -140,7 +139,6 @@
         </div>
     </div>
 
-    <script src="logs.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
