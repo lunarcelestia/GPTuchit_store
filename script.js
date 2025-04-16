@@ -209,7 +209,7 @@ function validatePassword(password) {
     return true;
 }
 
-function handleRegistration(event) {
+async function handleRegistration(event) {
     event.preventDefault();
     const form = document.querySelector('#authMenu .auth-form');
     const name = form.querySelector('input[type="text"]').value;
@@ -222,39 +222,60 @@ function handleRegistration(event) {
         return;
     }
 
-    if (!validateEmail(email)) {
-        return;
-    }
-
-    if (!validatePassword(password)) {
-        return;
-    }
-
+    if (!validateEmail(email) || !validatePassword(password)) return;
     if (password !== confirmPassword) {
         showNotification('Пароли не совпадают', true);
         return;
     }
 
-    showNotification('Регистрация успешна!');
-    closeAuthMenu();
+    const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
+    const response = await fetch("https://tricky-penguin-27.loca.lt/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            telegram_id: tgUser.id,
+            telegram_username: tgUser.username,
+            name,
+            email,
+            password
+        })
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+        showNotification('Регистрация успешна!');
+        closeAuthMenu();
+    } else {
+        showNotification(data.error || 'Ошибка регистрации', true);
+    }
 }
 
-function handleLogin(event) {
+async function handleLogin(event) {
     event.preventDefault();
     const form = document.querySelector('#loginMenu .auth-form');
     const email = form.querySelector('input[type="email"]').value;
     const password = form.querySelector('input[type="password"]').value;
 
-    if (!validateEmail(email)) {
-        return;
-    }
+    if (!validateEmail(email) || !validatePassword(password)) return;
 
-    if (!validatePassword(password)) {
-        return;
-    }
+    const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
+    const response = await fetch("https://tricky-penguin-27.loca.lt/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            telegram_id: tgUser.id,
+            email,
+            password
+        })
+    });
 
-    showNotification('Вход выполнен успешно!');
-    closeLoginMenu();
+    const data = await response.json();
+    if (response.ok) {
+        showNotification('Вход выполнен успешно!');
+        closeLoginMenu();
+    } else {
+        showNotification(data.error || 'Ошибка входа', true);
+    }
 }
 
 // Добавляем обработчики событий при загрузке страницы
