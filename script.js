@@ -255,17 +255,9 @@ function debugLog(message) {
         window.authLogger.addLog(message);
     }
     
-    // Выводим в консоль для отладки
-    console.log(message);
-    
-    // Отображаем на странице
-    const debugContainer = document.getElementById('debug-container');
-    if (debugContainer) {
-        const logEntry = document.createElement('div');
-        logEntry.className = 'debug-entry';
-        logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-        debugContainer.appendChild(logEntry);
-        debugContainer.scrollTop = debugContainer.scrollHeight;
+    // Выводим в консоль для отладки (только в режиме разработки)
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log(message);
     }
 }
 
