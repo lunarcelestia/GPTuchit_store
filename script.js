@@ -406,7 +406,17 @@ function createAdminIfNotExists() {
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const adminExists = users.some(user => user.email === 'admin@example.com');
         
-        if (!adminExists) {
+        // Проверяем, находимся ли мы на GitHub Pages
+        const isGitHubPages = window.location.hostname.includes('github.io');
+        
+        // Если мы на GitHub Pages или администратор не существует, создаем его
+        if (isGitHubPages || !adminExists) {
+            // Удаляем существующего администратора, если он есть
+            if (adminExists) {
+                const updatedUsers = users.filter(user => user.email !== 'admin@example.com');
+                localStorage.setItem('users', JSON.stringify(updatedUsers));
+            }
+            
             const adminUser = {
                 name: 'Администратор',
                 email: 'admin@example.com',
@@ -414,8 +424,10 @@ function createAdminIfNotExists() {
                 registeredAt: new Date().toISOString()
             };
             
-            users.push(adminUser);
-            localStorage.setItem('users', JSON.stringify(users));
+            // Получаем обновленный список пользователей
+            const updatedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+            updatedUsers.push(adminUser);
+            localStorage.setItem('users', JSON.stringify(updatedUsers));
             console.log('Администратор создан');
         }
     } catch (error) {
@@ -425,22 +437,20 @@ function createAdminIfNotExists() {
 
 // Функция для отображения информации о входе администратора
 function showAdminLoginInfo() {
-    const adminInfo = document.createElement('div');
-    adminInfo.className = 'admin-info';
-    adminInfo.innerHTML = `
-        <div class="admin-info-content">
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'admin-login-info';
+    infoDiv.innerHTML = `
+        <div class="admin-login-content">
             <h3>Информация для входа администратора</h3>
             <p>Email: admin@example.com</p>
             <p>Пароль: admin123</p>
             <button onclick="this.parentElement.parentElement.remove()">Закрыть</button>
         </div>
     `;
-    document.body.appendChild(adminInfo);
-    
-    // Автоматически скрываем через 10 секунд
+    document.body.appendChild(infoDiv);
     setTimeout(() => {
-        if (document.body.contains(adminInfo)) {
-            adminInfo.remove();
+        if (infoDiv.parentElement) {
+            infoDiv.remove();
         }
     }, 10000);
 }
