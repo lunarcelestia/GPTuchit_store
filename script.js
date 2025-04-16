@@ -277,28 +277,38 @@ function testFormSubmission(type, data) {
     }, 1000);
 }
 
+// Функции для работы с localStorage
+function saveUserToStorage(userData) {
+    try {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        users.push(userData);
+        localStorage.setItem('users', JSON.stringify(users));
+        return true;
+    } catch (error) {
+        console.error('Ошибка при сохранении пользователя:', error);
+        return false;
+    }
+}
+
+function findUserByEmail(email) {
+    try {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        return users.find(user => user.email === email);
+    } catch (error) {
+        console.error('Ошибка при поиске пользователя:', error);
+        return null;
+    }
+}
+
 function handleRegistration(event) {
     event.preventDefault();
-    debugLog("Обработка регистрации...");
-    
-    const form = document.querySelector('#authMenu .auth-form');
+    const form = event.target;
     const name = form.querySelector('input[type="text"]').value;
     const email = form.querySelector('input[type="email"]').value;
     const password = form.querySelector('input[type="password"]').value;
     const confirmPassword = form.querySelectorAll('input[type="password"]')[1].value;
 
-    debugLog("Данные формы: " + JSON.stringify({ name, email, password: '***' }));
-
-    if (!name || name.trim() === '') {
-        showNotification('Пожалуйста, введите ваше имя', true);
-        return;
-    }
-
-    if (!validateEmail(email)) {
-        return;
-    }
-
-    if (!validatePassword(password)) {
+    if (!validateEmail(email) || !validatePassword(password)) {
         return;
     }
 
@@ -307,107 +317,97 @@ function handleRegistration(event) {
         return;
     }
 
-    // Проверяем, находимся ли мы в Telegram WebApp
-    if (window.Telegram && window.Telegram.WebApp) {
-        const data = `register:${email}:${password}`;
-        debugLog("Отправка данных в бот: register:" + email + ":***");
-        window.Telegram.WebApp.sendData(data);
-        
-        window.Telegram.WebApp.onEvent('message', function(message) {
-            debugLog("Получен ответ от бота: " + message);
-            if (message.includes("успешно")) {
-                showNotification('Регистрация успешно завершена!');
-                closeAuthMenu();
-            } else {
-                showNotification(message, true);
-            }
-        });
+    // Проверяем, существует ли пользователь
+    if (findUserByEmail(email)) {
+        showNotification('Пользователь с таким email уже существует', true);
+        return;
+    }
+
+    // Создаем объект пользователя
+    const userData = {
+        name,
+        email,
+        password,
+        registeredAt: new Date().toISOString()
+    };
+
+    // Сохраняем пользователя
+    if (saveUserToStorage(userData)) {
+        showNotification('Регистрация успешно завершена!');
+        closeAuthMenu();
+        showLoginMenu();
     } else {
-        debugLog("Telegram WebApp недоступен, используем тестовый режим");
-        testFormSubmission('register', { name, email, password });
+        showNotification('Ошибка при регистрации', true);
     }
 }
 
 function handleLogin(event) {
     event.preventDefault();
-    debugLog("Обработка входа...");
-    
-    const form = document.querySelector('#loginMenu .auth-form');
+    const form = event.target;
     const email = form.querySelector('input[type="email"]').value;
     const password = form.querySelector('input[type="password"]').value;
 
-    debugLog("Данные формы: " + JSON.stringify({ email, password: '***' }));
-
-    if (!validateEmail(email)) {
+    if (!validateEmail(email) || !validatePassword(password)) {
         return;
     }
 
-    if (!validatePassword(password)) {
+    // Ищем пользователя
+    const user = findUserByEmail(email);
+    
+    if (!user) {
+        showNotification('Пользователь не найден', true);
         return;
     }
 
-    // Проверяем, находимся ли мы в Telegram WebApp
-    if (window.Telegram && window.Telegram.WebApp) {
-        const data = `login:${email}:${password}`;
-        debugLog("Отправка данных в бот: login:" + email + ":***");
-        window.Telegram.WebApp.sendData(data);
-        
-        window.Telegram.WebApp.onEvent('message', function(message) {
-            debugLog("Получен ответ от бота: " + message);
-            if (message.includes("успешно")) {
-                showNotification('Вход выполнен успешно!');
-                closeLoginMenu();
-            } else {
-                showNotification(message, true);
-            }
-        });
+    if (user.password !== password) {
+        showNotification('Неверный пароль', true);
+        return;
+    }
+
+    // Сохраняем информацию о входе
+    localStorage.setItem('currentUser', JSON.stringify({
+        name: user.name,
+        email: user.email,
+        lastLogin: new Date().toISOString()
+    }));
+
+    showNotification('Вход выполнен успешно!');
+    closeLoginMenu();
+    updateAuthButtons();
+}
+
+function handleLogout() {
+    localStorage.removeItem('currentUser');
+    updateAuthButtons();
+    showNotification('Вы вышли из аккаунта');
+}
+
+function updateAuthButtons() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const authButtons = document.querySelector('.auth-buttons');
+    
+    if (currentUser) {
+        authButtons.innerHTML = `
+            <span class="user-name">${currentUser.name}</span>
+            <button class="logout-btn" onclick="handleLogout()">Выйти</button>
+        `;
     } else {
-        debugLog("Telegram WebApp недоступен, используем тестовый режим");
-        testFormSubmission('login', { email, password });
+        authButtons.innerHTML = `
+            <button class="login-btn" onclick="showLoginMenu()">Войти</button>
+            <button class="register-btn" onclick="showAuthMenu()">Регистрация</button>
+        `;
     }
 }
 
-// Добавляем обработчики событий при загрузке страницы
+// Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
-    debugLog("DOM загружен, инициализация обработчиков...");
+    initThemeToggle();
+    displayCourses();
+    updateAuthButtons();
     
-    const registerForm = document.querySelector('#authMenu .auth-form');
-    const loginForm = document.querySelector('#loginMenu .auth-form');
-    const paymentButton = document.getElementById('paymentButton');
-    
-    debugLog("Найдены формы: " + (registerForm ? "Регистрация" : "Нет") + ", " + (loginForm ? "Вход" : "Нет"));
-    
-    // Отключаем стандартную HTML5 валидацию
-    const emailInputs = document.querySelectorAll('input[type="email"]');
-    emailInputs.forEach(input => {
-        input.removeAttribute('required');
-        input.setAttribute('novalidate', '');
-    });
-    
-    if (registerForm) {
-        debugLog("Добавляем обработчик регистрации");
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            debugLog("Форма регистрации отправлена");
-            handleRegistration(e);
-        });
-    }
-    
-    if (loginForm) {
-        debugLog("Добавляем обработчик входа");
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            debugLog("Форма входа отправлена");
-            handleLogin(e);
-        });
-    }
-    
-    if (paymentButton) {
-        paymentButton.addEventListener('click', handlePayment);
-    }
-    
-    // Запускаем первую проверку видимости
-    setTimeout(checkVisibility, 100);
+    // Добавляем обработчики форм
+    document.querySelector('#authMenu form').addEventListener('submit', handleRegistration);
+    document.querySelector('#loginMenu form').addEventListener('submit', handleLogin);
 });
 
 function addToCart() {
