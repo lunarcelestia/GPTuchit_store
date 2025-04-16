@@ -250,52 +250,23 @@ function validatePassword(password) {
 
 // Функция для отображения отладочных сообщений на странице
 function debugLog(message) {
-    console.log(message);
-    
-    // Создаем элемент для отображения отладочных сообщений, если его еще нет
-    let debugContainer = document.getElementById('debugContainer');
-    if (!debugContainer) {
-        debugContainer = document.createElement('div');
-        debugContainer.id = 'debugContainer';
-        debugContainer.style.position = 'fixed';
-        debugContainer.style.bottom = '10px';
-        debugContainer.style.left = '10px';
-        debugContainer.style.right = '10px';
-        debugContainer.style.maxHeight = '200px';
-        debugContainer.style.overflowY = 'auto';
-        debugContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-        debugContainer.style.color = 'white';
-        debugContainer.style.padding = '10px';
-        debugContainer.style.borderRadius = '5px';
-        debugContainer.style.zIndex = '9999';
-        debugContainer.style.fontSize = '12px';
-        debugContainer.style.fontFamily = 'monospace';
-        document.body.appendChild(debugContainer);
-        
-        // Добавляем кнопку для очистки логов
-        const clearButton = document.createElement('button');
-        clearButton.textContent = 'Очистить логи';
-        clearButton.style.position = 'absolute';
-        clearButton.style.top = '5px';
-        clearButton.style.right = '5px';
-        clearButton.style.padding = '2px 5px';
-        clearButton.style.backgroundColor = 'transparent';
-        clearButton.style.border = '1px solid white';
-        clearButton.style.color = 'white';
-        clearButton.style.cursor = 'pointer';
-        clearButton.onclick = function() {
-            debugContainer.innerHTML = '';
-        };
-        debugContainer.appendChild(clearButton);
+    // Используем новый логгер
+    if (window.authLogger) {
+        window.authLogger.addLog(message);
     }
     
-    // Добавляем сообщение в контейнер
-    const logEntry = document.createElement('div');
-    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-    debugContainer.appendChild(logEntry);
+    // Выводим в консоль для отладки
+    console.log(message);
     
-    // Прокручиваем к последнему сообщению
-    debugContainer.scrollTop = debugContainer.scrollHeight;
+    // Отображаем на странице
+    const debugContainer = document.getElementById('debug-container');
+    if (debugContainer) {
+        const logEntry = document.createElement('div');
+        logEntry.className = 'debug-entry';
+        logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+        debugContainer.appendChild(logEntry);
+        debugContainer.scrollTop = debugContainer.scrollHeight;
+    }
 }
 
 // Функция для тестирования форм вне Telegram
