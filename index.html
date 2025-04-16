@@ -8,11 +8,39 @@
 </head>
 <body>
     <header>
-        <div class="auth-buttons">
-            <button class="login-btn">Войти</button>
-            <button class="register-btn" onclick="showAuthMenu()">Регистрация</button>
+        <div class="header-top">
+            <h1>GPTUchit</h1>
+            <div class="auth-buttons">
+                <button class="login-btn">Войти</button>
+                <button class="register-btn" onclick="showAuthMenu()">Регистрация</button>
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <svg class="sun-and-moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                    <circle class="sun" cx="12" cy="12" r="6" fill="currentColor" />
+                    <g class="sun-beams" stroke="currentColor">
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                    </g>
+                    <g class="moon">
+                        <circle cx="12" cy="12" r="24" class="moon-circle" />
+                        <circle cx="2" cy="2" r="6" class="moon-crater" />
+                        <circle cx="28" cy="6" r="5" class="moon-crater" />
+                        <circle cx="8" cy="28" r="6.5" class="moon-crater" />
+                        <circle cx="32" cy="18" r="3.5" class="moon-crater" />
+                        <circle cx="18" cy="32" r="4" class="moon-crater" />
+                        <circle cx="22" cy="14" r="3" class="moon-crater" />
+                        <circle cx="4" cy="16" r="3.5" class="moon-crater" />
+                        <circle cx="16" cy="4" r="2.5" class="moon-crater" />
+                    </g>
+                </svg>
+            </button>
         </div>
-        <h1>GPTUchit</h1>
         <div class="welcome-message">
             <p>Добро пожаловать на сайт GPTUchit!</p>
             <p>Мы рады представить вам нашего телеграм-бота, который поможет вам освоить промпт инжиниринг и эффективно использовать возможности GPT. Здесь вы найдете уникальные курсы с эксклюзивной информацией и образовательными уроками, созданными для того, чтобы сделать процесс обучения простым и увлекательным.</p>
@@ -53,7 +81,7 @@
                 <h2 class="auth-menu-title">Регистрация</h2>
                 <button class="auth-menu-close" onclick="closeAuthMenu()">&times;</button>
             </div>
-            <form class="auth-form" onsubmit="return false;" novalidate>
+            <form class="auth-form" novalidate>
                 <input type="text" placeholder="Имя">
                 <input type="email" placeholder="Email">
                 <input type="password" placeholder="Пароль">
@@ -73,7 +101,7 @@
                 <h2 class="auth-menu-title">Вход в аккаунт</h2>
                 <button class="auth-menu-close" onclick="closeLoginMenu()">&times;</button>
             </div>
-            <form class="auth-form" onsubmit="return false;" novalidate>
+            <form class="auth-form" novalidate>
                 <input type="email" placeholder="Email">
                 <input type="password" placeholder="Пароль">
                 <button type="submit">Войти</button>
@@ -112,6 +140,10 @@
         </div>
     </div>
 
+    <div id="debug-container" class="debug-container">
+        <button id="clear-logs" class="clear-logs-btn">Очистить логи</button>
+    </div>
+    <script src="logs.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
