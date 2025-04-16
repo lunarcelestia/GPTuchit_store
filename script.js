@@ -300,6 +300,7 @@ function findUserByEmail(email) {
     }
 }
 
+// Обновляем функцию handleRegistration
 function handleRegistration(event) {
     event.preventDefault();
     const form = event.target;
@@ -318,7 +319,8 @@ function handleRegistration(event) {
     }
 
     // Проверяем, существует ли пользователь
-    if (findUserByEmail(email)) {
+    const existingUser = findUserByEmail(email);
+    if (existingUser) {
         showNotification('Пользователь с таким email уже существует', true);
         return;
     }
@@ -341,6 +343,7 @@ function handleRegistration(event) {
     }
 }
 
+// Обновляем функцию handleLogin
 function handleLogin(event) {
     event.preventDefault();
     const form = event.target;
@@ -435,35 +438,12 @@ function createAdminIfNotExists() {
     }
 }
 
-// Функция для отображения информации о входе администратора
-function showAdminLoginInfo() {
-    const infoDiv = document.createElement('div');
-    infoDiv.className = 'admin-login-info';
-    infoDiv.innerHTML = `
-        <div class="admin-login-content">
-            <h3>Информация для входа администратора</h3>
-            <p>Email: admin@example.com</p>
-            <p>Пароль: admin123</p>
-            <button onclick="this.parentElement.parentElement.remove()">Закрыть</button>
-        </div>
-    `;
-    document.body.appendChild(infoDiv);
-    setTimeout(() => {
-        if (infoDiv.parentElement) {
-            infoDiv.remove();
-        }
-    }, 10000);
-}
-
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
     displayCourses();
     createAdminIfNotExists(); // Создаем администратора, если его нет
     updateAuthButtons();
-    
-    // Показываем информацию о входе администратора
-    showAdminLoginInfo();
     
     // Добавляем обработчики форм
     document.querySelector('#authMenu form').addEventListener('submit', handleRegistration);
