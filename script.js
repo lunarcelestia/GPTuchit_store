@@ -390,6 +390,7 @@ function updateAuthButtons() {
         authButtons.innerHTML = `
             <span class="user-name">${currentUser.name}</span>
             <button class="logout-btn" onclick="handleLogout()">Выйти</button>
+            ${currentUser.email === 'admin@example.com' ? '<button class="admin-btn" onclick="showAdminPanel()">Админ</button>' : ''}
         `;
     } else {
         authButtons.innerHTML = `
@@ -399,11 +400,60 @@ function updateAuthButtons() {
     }
 }
 
+// Функция для создания администратора при первом запуске
+function createAdminIfNotExists() {
+    try {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const adminExists = users.some(user => user.email === 'admin@example.com');
+        
+        if (!adminExists) {
+            const adminUser = {
+                name: 'Администратор',
+                email: 'admin@example.com',
+                password: 'admin123', // Простой пароль для демонстрации
+                registeredAt: new Date().toISOString()
+            };
+            
+            users.push(adminUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            console.log('Администратор создан');
+        }
+    } catch (error) {
+        console.error('Ошибка при создании администратора:', error);
+    }
+}
+
+// Функция для отображения информации о входе администратора
+function showAdminLoginInfo() {
+    const adminInfo = document.createElement('div');
+    adminInfo.className = 'admin-info';
+    adminInfo.innerHTML = `
+        <div class="admin-info-content">
+            <h3>Информация для входа администратора</h3>
+            <p>Email: admin@example.com</p>
+            <p>Пароль: admin123</p>
+            <button onclick="this.parentElement.parentElement.remove()">Закрыть</button>
+        </div>
+    `;
+    document.body.appendChild(adminInfo);
+    
+    // Автоматически скрываем через 10 секунд
+    setTimeout(() => {
+        if (document.body.contains(adminInfo)) {
+            adminInfo.remove();
+        }
+    }, 10000);
+}
+
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
     displayCourses();
+    createAdminIfNotExists(); // Создаем администратора, если его нет
     updateAuthButtons();
+    
+    // Показываем информацию о входе администратора
+    showAdminLoginInfo();
     
     // Добавляем обработчики форм
     document.querySelector('#authMenu form').addEventListener('submit', handleRegistration);
@@ -645,3 +695,127 @@ window.onload = () => {
     displayCourses();
     initThemeToggle();
 };
+
+function exportUserData() {
+    try {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (users.length === 0) {
+            showNotification('Нет данных пользователей для экспорта', true);
+            return;
+        }
+        
+        // Создаем объект с данными для экспорта
+        const exportData = {
+            users: users,
+            exportDate: new Date().toISOString(),
+            totalUsers: users.length
+        };
+        
+        // Преобразуем в JSON
+        const jsonData = JSON.stringify(exportData, null, 2);
+        
+        // Создаем Blob и ссылку для скачивания
+        const blob = new Blob([jsonData], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        // Создаем ссылку для скачивания
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `gptuchit_users_${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        
+        // Очищаем
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
+        
+        showNotification('Данные пользователей успешно экспортированы');
+    } catch (error) {
+        console.error('Ошибка при экспорте данных:', error);
+        showNotification('Ошибка при экспорте данных', true);
+    }
+}
+
+// Добавляем кнопку экспорта в интерфейс администратора
+function showAdminPanel() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        showNotification('Для доступа к панели администратора необходимо войти', true);
+        return;
+    }
+    
+    // Проверяем, является ли пользователь администратором
+    // В реальном приложении здесь должна быть проверка роли пользователя
+    if (currentUser.email !== 'admin@example.com') {
+        showNotification('У вас нет прав для доступа к панели администратора', true);
+        return;
+    }
+    
+    // Создаем модальное окно администратора
+    const adminModal = document.createElement('div');
+    adminModal.className = 'admin-modal';
+    adminModal.innerHTML = `
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2>Панель администратора</h2>
+                <button class="admin-modal-close" onclick="closeAdminPanel()">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <h3>Пользователи (${JSON.parse(localStorage.getItem('users') || '[]').length})</h3>
+                <button onclick="exportUserData()">Экспортировать данные пользователей</button>
+                <div class="admin-users-list">
+                    ${renderUsersList()}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(adminModal);
+    document.body.style.overflow = 'hidden';
+    
+    // Добавляем класс для анимации
+    setTimeout(() => {
+        adminModal.classList.add('active');
+    }, 10);
+}
+
+function closeAdminPanel() {
+    const adminModal = document.querySelector('.admin-modal');
+    if (adminModal) {
+        adminModal.classList.remove('active');
+        setTimeout(() => {
+            document.body.removeChild(adminModal);
+            document.body.style.overflow = '';
+        }, 300);
+    }
+}
+
+function renderUsersList() {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    if (users.length === 0) {
+        return '<p>Нет зарегистрированных пользователей</p>';
+    }
+    
+    return `
+        <table class="admin-users-table">
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th>Дата регистрации</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${users.map(user => `
+                    <tr>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${new Date(user.registeredAt).toLocaleString()}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+}
