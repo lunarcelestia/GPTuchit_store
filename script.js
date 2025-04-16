@@ -117,7 +117,75 @@ function removeFromCart(courseId) {
     displayCart();
 }
 
-// Инициализация при загрузке страницы
+function showAuthMenu() {
+    closeLoginMenu();
+    const authMenu = document.getElementById('authMenu');
+    authMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAuthMenu() {
+    const authMenu = document.getElementById('authMenu');
+    authMenu.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function showLoginMenu() {
+    closeAuthMenu();
+    const loginMenu = document.getElementById('loginMenu');
+    loginMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLoginMenu() {
+    const loginMenu = document.getElementById('loginMenu');
+    loginMenu.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function showForgotPassword() {
+    const title = document.querySelector('#loginMenu .auth-menu-title');
+    const form = document.querySelector('#loginMenu .auth-form');
+    const footer = document.querySelector('#loginMenu .auth-menu-footer');
+    
+    title.textContent = 'Восстановление пароля';
+    form.innerHTML = `
+        <input type="email" placeholder="Email" required>
+        <button type="submit">Отправить инструкции</button>
+    `;
+    footer.innerHTML = '<p><a href="#" onclick="restoreLoginForm()">Вернуться к входу</a></p>';
+}
+
+function restoreLoginForm() {
+    const title = document.querySelector('#loginMenu .auth-menu-title');
+    const form = document.querySelector('#loginMenu .auth-form');
+    const footer = document.querySelector('#loginMenu .auth-menu-footer');
+    
+    title.textContent = 'Вход в аккаунт';
+    form.innerHTML = `
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Пароль" required>
+        <button type="submit">Войти</button>
+    `;
+    footer.innerHTML = `
+        <p>Нет аккаунта? <a href="#" onclick="showAuthMenu()">Зарегистрироваться</a></p>
+        <p><a href="#" onclick="showForgotPassword()">Забыли пароль?</a></p>
+    `;
+}
+
+document.addEventListener('click', (e) => {
+    const authMenu = document.getElementById('authMenu');
+    const loginMenu = document.getElementById('loginMenu');
+    if (e.target === authMenu) {
+        closeAuthMenu();
+    }
+    if (e.target === loginMenu) {
+        closeLoginMenu();
+    }
+});
+
+document.querySelector('.login-btn').onclick = showLoginMenu;
+
 window.onload = () => {
     displayCourses();
 };
