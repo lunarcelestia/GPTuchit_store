@@ -298,7 +298,22 @@ function debugLog(message) {
     debugContainer.scrollTop = debugContainer.scrollHeight;
 }
 
-// Заменяем console.log на debugLog в ключевых функциях
+// Функция для тестирования форм вне Telegram
+function testFormSubmission(type, data) {
+    debugLog(`Тестовый режим: ${type} с данными ${JSON.stringify({...data, password: '***'})}`);
+    
+    // Имитация успешного ответа
+    setTimeout(() => {
+        if (type === 'register') {
+            showNotification('Тестовый режим: Регистрация успешно завершена!');
+            closeAuthMenu();
+        } else if (type === 'login') {
+            showNotification('Тестовый режим: Вход выполнен успешно!');
+            closeLoginMenu();
+        }
+    }, 1000);
+}
+
 function handleRegistration(event) {
     event.preventDefault();
     debugLog("Обработка регистрации...");
@@ -329,15 +344,12 @@ function handleRegistration(event) {
         return;
     }
 
-    // Отправляем данные в бот через Telegram WebApp
-    debugLog("Проверка Telegram WebApp: " + (window.Telegram ? "Доступен" : "Недоступен"));
-    
+    // Проверяем, находимся ли мы в Telegram WebApp
     if (window.Telegram && window.Telegram.WebApp) {
         const data = `register:${email}:${password}`;
         debugLog("Отправка данных в бот: register:" + email + ":***");
         window.Telegram.WebApp.sendData(data);
         
-        // Добавляем обработчик ответа от бота
         window.Telegram.WebApp.onEvent('message', function(message) {
             debugLog("Получен ответ от бота: " + message);
             if (message.includes("успешно")) {
@@ -348,8 +360,8 @@ function handleRegistration(event) {
             }
         });
     } else {
-        debugLog("Ошибка: Telegram WebApp не доступен");
-        showNotification('Ошибка: Telegram WebApp не доступен', true);
+        debugLog("Telegram WebApp недоступен, используем тестовый режим");
+        testFormSubmission('register', { name, email, password });
     }
 }
 
@@ -371,15 +383,12 @@ function handleLogin(event) {
         return;
     }
 
-    // Отправляем данные в бот через Telegram WebApp
-    debugLog("Проверка Telegram WebApp: " + (window.Telegram ? "Доступен" : "Недоступен"));
-    
+    // Проверяем, находимся ли мы в Telegram WebApp
     if (window.Telegram && window.Telegram.WebApp) {
         const data = `login:${email}:${password}`;
         debugLog("Отправка данных в бот: login:" + email + ":***");
         window.Telegram.WebApp.sendData(data);
         
-        // Добавляем обработчик ответа от бота
         window.Telegram.WebApp.onEvent('message', function(message) {
             debugLog("Получен ответ от бота: " + message);
             if (message.includes("успешно")) {
@@ -390,8 +399,8 @@ function handleLogin(event) {
             }
         });
     } else {
-        debugLog("Ошибка: Telegram WebApp не доступен");
-        showNotification('Ошибка: Telegram WebApp не доступен', true);
+        debugLog("Telegram WebApp недоступен, используем тестовый режим");
+        testFormSubmission('login', { email, password });
     }
 }
 
