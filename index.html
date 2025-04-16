@@ -30,15 +30,16 @@
         </div>
     </main>
 
+    <!-- Попап товара -->
     <div class="course-popup" id="coursePopup">
         <div class="popup-content">
-            <span class="close" onclick="closePopup()">&times;</span>
+            <span class="close" onclick="closeCoursePopup()">&times;</span>
             <div class="popup-course-info">
                 <img id="popupImage" src="" alt="Изображение курса">
                 <div class="popup-text">
-                    <h2 id="popupTitle"></h2>
+                    <h3 id="popupTitle"></h3>
                     <p id="popupDescription"></p>
-                    <p class="price">3000 рублей</p>
+                    <p class="price" id="popupPrice"></p>
                     <button onclick="addToCart()">Добавить в корзину</button>
                 </div>
             </div>
@@ -52,11 +53,11 @@
                 <h2 class="auth-menu-title">Регистрация</h2>
                 <button class="auth-menu-close" onclick="closeAuthMenu()">&times;</button>
             </div>
-            <form class="auth-form" onsubmit="return false;">
-                <input type="text" placeholder="Имя" required>
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Пароль" required>
-                <input type="password" placeholder="Подтвердите пароль" required>
+            <form class="auth-form" onsubmit="return false;" novalidate>
+                <input type="text" placeholder="Имя">
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Пароль">
+                <input type="password" placeholder="Подтвердите пароль">
                 <button type="submit">Зарегистрироваться</button>
             </form>
             <div class="auth-menu-footer">
@@ -72,15 +73,42 @@
                 <h2 class="auth-menu-title">Вход в аккаунт</h2>
                 <button class="auth-menu-close" onclick="closeLoginMenu()">&times;</button>
             </div>
-            <form class="auth-form" onsubmit="return false;">
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Пароль" required>
+            <form class="auth-form" onsubmit="return false;" novalidate>
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Пароль">
                 <button type="submit">Войти</button>
             </form>
             <div class="auth-menu-footer">
                 <p>Нет аккаунта? <a href="#" onclick="showAuthMenu()">Зарегистрироваться</a></p>
                 <p><a href="#" onclick="showForgotPassword()">Забыли пароль?</a></p>
             </div>
+        </div>
+    </div>
+
+    <!-- Уведомление о добавлении в корзину -->
+    <div class="notification" id="notification">
+        <div class="notification-icon"></div>
+        <span id="notificationText">Товар добавлен в корзину</span>
+    </div>
+
+    <!-- Кнопка оплаты -->
+    <button class="payment-button" id="paymentButton" style="display: none;">$</button>
+    <div class="total-amount" id="totalAmount"></div>
+
+    <!-- Меню оплаты -->
+    <div class="payment-menu" id="paymentMenu">
+        <div class="payment-menu-content">
+            <div class="payment-menu-header">
+                <h2 class="payment-menu-title">Оформление заказа</h2>
+                <button class="payment-menu-close" onclick="closePaymentMenu()">&times;</button>
+            </div>
+            <div class="payment-menu-items" id="paymentItems">
+                <!-- Товары будут добавлены через JavaScript -->
+            </div>
+            <div class="payment-total" id="paymentTotal">
+                <!-- Общая сумма будет добавлена через JavaScript -->
+            </div>
+            <button class="payment-button-large" onclick="processPayment()">Оплатить</button>
         </div>
     </div>
 
