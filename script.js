@@ -38,6 +38,45 @@ const courses = [
 
 let cart = [];
 
+function initThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Проверяем сохраненную тему
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+    } else if (prefersDarkScheme.matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    
+    themeToggle.addEventListener('click', () => {
+        let currentTheme = document.documentElement.getAttribute('data-theme');
+        let newTheme;
+        
+        if (currentTheme === 'dark') {
+            newTheme = 'light';
+            document.documentElement.classList.remove('dark-theme');
+            document.documentElement.classList.add('light-theme');
+        } else {
+            newTheme = 'dark';
+            document.documentElement.classList.remove('light-theme');
+            document.documentElement.classList.add('dark-theme');
+        }
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+
+    // Устанавливаем начальные классы
+    const initialTheme = document.documentElement.getAttribute('data-theme');
+    if (initialTheme === 'dark') {
+        document.documentElement.classList.add('dark-theme');
+    } else {
+        document.documentElement.classList.add('light-theme');
+    }
+}
+
 function showPage(page) {
     const mainContent = document.getElementById('mainContent');
     if (page === 'home') {
@@ -209,72 +248,99 @@ function validatePassword(password) {
     return true;
 }
 
-async function handleRegistration(event) {
+function handleRegistration(event) {
     event.preventDefault();
+    console.log("Форма регистрации отправлена");
+    
     const form = document.querySelector('#authMenu .auth-form');
     const name = form.querySelector('input[type="text"]').value;
     const email = form.querySelector('input[type="email"]').value;
-    const password = form.querySelectorAll('input[type="password"]')[0].value;
-    const confirmPassword = form.querySelectorAll('input[type="password"]')[1].value;
+    const password = form.querySelector('input[type="password"]').value;
+    const confirmPassword = form.querySelector('input[type="password"]')[1].value;
+
+    console.log("Данные формы:", { name, email, password });
 
     if (!name || name.trim() === '') {
         showNotification('Пожалуйста, введите ваше имя', true);
         return;
     }
 
-    if (!validateEmail(email) || !validatePassword(password)) return;
+    if (!validateEmail(email)) {
+        return;
+    }
+
+    if (!validatePassword(password)) {
+        return;
+    }
+
     if (password !== confirmPassword) {
         showNotification('Пароли не совпадают', true);
         return;
     }
 
-    const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
-    const response = await fetch("https://shaggy-goats-rest.loca.lt/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            telegram_id: tgUser.id,
-            telegram_username: tgUser.username,
-            name,
-            email,
-            password
-        })
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-        showNotification('Регистрация успешна!');
-        closeAuthMenu();
+    // Отправляем данные в бот через Telegram WebApp
+    console.log("Проверка Telegram WebApp:", window.Telegram, window.Telegram?.WebApp);
+    
+    if (window.Telegram && window.Telegram.WebApp) {
+        const data = `register:${email}:${password}`;
+        console.log("Отправка данных в бот:", data);
+        window.Telegram.WebApp.sendData(data);
+        
+        // Добавляем обработчик ответа от бота
+        window.Telegram.WebApp.onEvent('message', function(message) {
+            console.log("Получен ответ от бота:", message);
+            if (message.includes("успешно")) {
+                showNotification('Регистрация успешно завершена!');
+                closeAuthMenu();
+            } else {
+                showNotification(message, true);
+            }
+        });
     } else {
-        showNotification(data.error || 'Ошибка регистрации', true);
+        console.error("Telegram WebApp не доступен");
+        showNotification('Ошибка: Telegram WebApp не доступен', true);
     }
 }
 
-async function handleLogin(event) {
+function handleLogin(event) {
     event.preventDefault();
+    console.log("Форма входа отправлена");
+    
     const form = document.querySelector('#loginMenu .auth-form');
     const email = form.querySelector('input[type="email"]').value;
     const password = form.querySelector('input[type="password"]').value;
 
-    if (!validateEmail(email) || !validatePassword(password)) return;
+    console.log("Данные формы:", { email, password });
 
-    const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
-    const response = await fetch("https://shaggy-goats-rest.loca.lt/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            telegram_id: tgUser.id,
-            email,
-            password
-        })
-    });
+    if (!validateEmail(email)) {
+        return;
+    }
 
-    const data = await response.json();
-    if (response.ok) {
-        showNotification('Вход выполнен успешно!');
-        closeLoginMenu();
+    if (!validatePassword(password)) {
+        return;
+    }
+
+    // Отправляем данные в бот через Telegram WebApp
+    console.log("Проверка Telegram WebApp:", window.Telegram, window.Telegram?.WebApp);
+    
+    if (window.Telegram && window.Telegram.WebApp) {
+        const data = `login:${email}:${password}`;
+        console.log("Отправка данных в бот:", data);
+        window.Telegram.WebApp.sendData(data);
+        
+        // Добавляем обработчик ответа от бота
+        window.Telegram.WebApp.onEvent('message', function(message) {
+            console.log("Получен ответ от бота:", message);
+            if (message.includes("успешно")) {
+                showNotification('Вход выполнен успешно!');
+                closeLoginMenu();
+            } else {
+                showNotification(message, true);
+            }
+        });
     } else {
-        showNotification(data.error || 'Ошибка входа', true);
+        console.error("Telegram WebApp не доступен");
+        showNotification('Ошибка: Telegram WebApp не доступен', true);
     }
 }
 
@@ -532,4 +598,5 @@ document.querySelector('.login-btn').onclick = showLoginMenu;
 
 window.onload = () => {
     displayCourses();
+    initThemeToggle();
 };
