@@ -388,7 +388,7 @@ function updateAuthButtons() {
     
     if (currentUser) {
         authButtons.innerHTML = `
-            <span class="user-name">${currentUser.name}</span>
+            <span class="user-name" onclick="showProfileMenu()">${currentUser.name}</span>
             <button class="logout-btn" onclick="handleLogout()">Выйти</button>
             ${currentUser.email === 'admin@example.com' ? '<button class="admin-btn" onclick="showAdminPanel()">Админ</button>' : ''}
         `;
@@ -818,4 +818,28 @@ function renderUsersList() {
             </tbody>
         </table>
     `;
+}
+
+function showProfileMenu() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        showNotification('Для просмотра профиля необходимо войти', true);
+        return;
+    }
+
+    const profileMenu = document.getElementById('profileMenu');
+    const profileName = document.getElementById('profileName');
+    const profileEmail = document.getElementById('profileEmail');
+
+    profileName.textContent = currentUser.name;
+    profileEmail.textContent = currentUser.email;
+
+    profileMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeProfileMenu() {
+    const profileMenu = document.getElementById('profileMenu');
+    profileMenu.classList.remove('active');
+    document.body.style.overflow = '';
 }
