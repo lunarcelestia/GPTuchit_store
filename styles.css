@@ -1,1107 +1,120 @@
-@font-face {
-    font-family: 'Widock Trial';
-    src: url('./fonts/WidockTrial-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Widock Trial', sans-serif;
-    background: linear-gradient(135deg, #ffffff, #e6f3ff, #cce6ff);
-    min-height: 100vh;
-    padding: 20px;
-}
-
-h1, h2, h3, button, input, .auth-menu-title {
-    font-family: 'Widock Trial', sans-serif;
-}
-
-header {
-    position: relative;
-    margin-bottom: 30px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-h1 {
-    font-size: 2.5rem;
-    color: #0066cc;
-    margin: 0;
-    text-align: left;
-    position: absolute;
+.admin-info {
+    position: fixed;
     top: 20px;
-    left: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 300px;
 }
 
-.menu {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 100px auto 30px;
-    width: 100%;
+.admin-info-content {
+    text-align: center;
 }
 
-.menu button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    background-color: #0066cc;
+.admin-info h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.admin-info p {
+    margin: 8px 0;
+    color: #666;
+}
+
+.admin-info button {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background-color: #007bff;
     color: white;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
     transition: background-color 0.3s;
 }
 
-.menu button:hover {
-    background-color: #0052a3;
+.admin-info button:hover {
+    background-color: #0056b3;
 }
 
-.course {
-    background-color: white;
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 20px;
+.profile-info {
     display: flex;
+    align-items: center;
     gap: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    flex-wrap: wrap;
-    cursor: pointer;
-    position: relative;
-    opacity: 0;
-    transform: translateY(100%);
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px 0;
 }
 
-.course.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.course.hidden {
-    opacity: 0;
-    transform: translateY(100%);
-}
-
-.course:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.course-image {
+.profile-avatar {
     width: 100px;
     height: 100px;
-    object-fit: cover;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #007bff;
 }
 
-.course-info {
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-details {
     flex: 1;
 }
 
-.course-info h3 {
-    color: #0066cc;
-    margin-bottom: 10px;
-}
-
-.course-info p {
-    margin-bottom: 10px;
+.profile-details p {
+    margin: 5px 0;
     color: #333;
-}
-
-.course-info p:not(.price) {
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.course-info p:not(.price):hover {
-    color: #0066cc;
-}
-
-.course-popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 1000;
-}
-
-.course-popup.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.popup-content {
-    background: white;
-    border-radius: 20px;
-    padding: 30px;
-    width: 90%;
-    max-width: 400px;
-    position: relative;
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.course-popup.active .popup-content {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.close {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #666;
-}
-
-.popup-course-info {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-#popupImage {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.popup-text {
-    text-align: center;
-}
-
-.price {
-    font-size: 1.2rem;
-    color: #0066cc;
-    font-weight: bold;
-    margin: 15px 0;
-}
-
-.popup-content button {
-    width: 100%;
-    padding: 12px;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-}
-
-.popup-content button:hover {
-    background-color: #0052a3;
-}
-
-.welcome-message {
-    background-color: white;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 800px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 95%;
-    text-align: center;
-}
-
-.welcome-message p {
-    margin-bottom: 15px;
-    line-height: 1.5;
-    color: #333;
-}
-
-.welcome-message p:first-child {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #0066cc;
-}
-
-.course-info button {
-    padding: 12px;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-    margin-top: 10px;
-}
-
-.course-info button:hover {
-    background-color: #0052a3;
-}
-
-.auth-buttons {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 10px;
-    padding: 10px;
-}
-
-.auth-buttons button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-.login-btn {
-    background-color: transparent;
-    color: #0066cc;
-    border: 2px solid #0066cc !important;
-}
-
-.login-btn:hover {
-    background-color: #0066cc;
-    color: white;
-}
-
-.register-btn {
-    background-color: #0066cc;
-    color: white;
-}
-
-.register-btn:hover {
-    background-color: #0052a3;
-}
-
-.auth-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 1000;
-}
-
-.auth-menu.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.auth-menu-content {
-    background: white;
-    width: 90%;
-    max-width: 400px;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.auth-menu.active .auth-menu-content {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.auth-menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
-.auth-menu-title {
-    font-size: 1.8rem;
-    color: #0066cc;
-    font-weight: bold;
-}
-
-.auth-menu-close {
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #666;
-    cursor: pointer;
-    padding: 5px;
-}
-
-.auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.auth-form input {
-    padding: 12px;
-    border: 2px solid #e0e0e0;
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: border-color 0.3s;
-}
-
-.auth-form input:focus {
-    border-color: #0066cc;
-    outline: none;
-}
-
-.auth-form button {
-    background: #0066cc;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.auth-form button:hover {
-    background: #0052a3;
-}
-
-.auth-menu-footer {
-    margin-top: 20px;
-    text-align: center;
-    color: #666;
-}
-
-.auth-menu-footer a {
-    color: #0066cc;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.notification {
-    position: fixed;
-    top: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 16px 24px;
-    border-radius: 50px;
-    font-size: 0.95rem;
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    min-width: 280px;
-    max-width: 90%;
-    width: auto;
-    opacity: 0;
-    visibility: hidden;
-}
-
-.notification.show {
-    top: 20px;
-    opacity: 1;
-    visibility: visible;
-}
-
-.notification.error {
-    background: rgba(220, 53, 69, 0.75);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-.notification-icon {
-    min-width: 24px;
-    width: 24px;
-    height: 24px;
-    background: #0066cc;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.3s ease;
-}
-
-.notification-icon::before {
-    content: '✓';
-    color: white;
-    font-size: 14px;
-    line-height: 1;
-    font-weight: bold;
-}
-
-.notification-icon.error {
-    background: #fff;
-}
-
-.notification-icon.error::before {
-    content: '!';
-    color: #dc3545;
     font-size: 16px;
+}
+
+.profile-details p:first-child {
     font-weight: bold;
+    font-size: 18px;
 }
 
-#notificationText {
-    flex-grow: 1;
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: calc(90vw - 100px);
-    line-height: 1.4;
-}
-
-.payment-button {
+.admin-login-info {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    background: #0066cc;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    border: none;
-    transition: all 0.3s ease;
-    z-index: 100;
-}
-
-.payment-button:hover {
-    transform: scale(1.1);
-    background: #0052a3;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-}
-
-.total-amount {
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
-
-.total-amount.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.payment-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
+    top: 20px;
+    right: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     z-index: 1000;
+    max-width: 300px;
 }
 
-.payment-menu.active {
-    opacity: 1;
-    visibility: visible;
+.admin-login-content {
+    text-align: center;
 }
 
-.payment-menu-content {
-    background: white;
-    width: 90%;
-    max-width: 600px;
-    height: 80vh;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: all 0.3s ease;
-    overflow-y: auto;
-}
-
-.payment-menu.active .payment-menu-content {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.payment-menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #f0f0f0;
-}
-
-.payment-menu-title {
-    font-size: 1.8rem;
-    color: #0066cc;
-    font-weight: bold;
-}
-
-.payment-menu-close {
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #666;
-    cursor: pointer;
-    padding: 5px;
-}
-
-.payment-menu-items {
-    margin-bottom: 30px;
-}
-
-.payment-item {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid #f0f0f0;
-    gap: 20px;
-}
-
-.payment-item-image {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.payment-item-info {
-    flex: 1;
-}
-
-.payment-item-title {
-    font-size: 1.1rem;
+.admin-login-content h3 {
+    margin-top: 0;
     color: #333;
-    margin-bottom: 5px;
 }
 
-.payment-item-price {
-    color: #0066cc;
-    font-weight: bold;
+.admin-login-content p {
+    margin: 5px 0;
+    color: #666;
 }
 
-.payment-total {
-    font-size: 1.4rem;
-    color: #0066cc;
-    text-align: right;
-    margin: 20px 0;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
-}
-
-.payment-button-large {
-    width: 100%;
-    padding: 15px;
-    background: #0066cc;
+.admin-login-content button {
+    margin-top: 10px;
+    padding: 5px 15px;
+    background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
+    border-radius: 3px;
     cursor: pointer;
-    transition: background 0.3s;
 }
 
-.payment-button-large:hover {
-    background: #0052a3;
-}
-
-.courses-container {
-    position: relative;
-    overflow: hidden;
-}
-
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-
-    header {
-        padding-top: 100px;
-        margin-bottom: 20px;
-    }
-
-    h1 {
-        font-size: 2rem;
-        top: 15px;
-        left: 15px;
-    }
-
-    .menu {
-        margin-top: 60px;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    .menu button {
-        width: calc(50% - 10px);
-        padding: 12px;
-        font-size: 0.95rem;
-    }
-
-    .course {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 20px;
-        margin-bottom: 25px;
-        transform: translateY(50px);
-    }
-
-    .course.visible {
-        transform: translateY(0);
-    }
-
-    .course.hidden {
-        transform: translateY(50px);
-    }
-
-    .course-image {
-        width: 200px;
-        height: 200px;
-        margin-bottom: 15px;
-    }
-
-    .course-info {
-        width: 100%;
-    }
-
-    .course-info h3 {
-        font-size: 1.4rem;
-        margin-bottom: 12px;
-    }
-
-    .course-info p {
-        font-size: 1rem;
-        line-height: 1.4;
-        margin-bottom: 12px;
-    }
-
-    .price {
-        font-size: 1.3rem;
-        margin: 15px 0;
-    }
-
-    .welcome-message {
-        padding: 20px;
-        margin: 15px auto;
-        border-radius: 20px;
-    }
-
-    .welcome-message p {
-        font-size: 1rem;
-        line-height: 1.5;
-        margin-bottom: 15px;
-    }
-
-    .welcome-message p:first-child {
-        font-size: 1.3rem;
-        margin-bottom: 20px;
-    }
-
-    .popup-content {
-        width: 95%;
-        padding: 20px;
-        margin: 10px;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-
-    #popupImage {
-        height: 250px;
-        object-fit: cover;
-        border-radius: 15px;
-        margin-bottom: 20px;
-    }
-
-    .popup-text h3 {
-        font-size: 1.4rem;
-        margin-bottom: 15px;
-    }
-
-    .popup-text p {
-        font-size: 1rem;
-        line-height: 1.4;
-        margin-bottom: 15px;
-    }
-
-    .auth-menu-content {
-        width: 95%;
-        padding: 25px;
-        margin: 10px;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-
-    .auth-menu-title {
-        font-size: 1.6rem;
-    }
-
-    .auth-form input {
-        padding: 15px;
-        font-size: 1rem;
-        border-radius: 12px;
-    }
-
-    .auth-form button {
-        padding: 15px;
-        font-size: 1.1rem;
-        border-radius: 12px;
-    }
-
-    .notification {
-        width: 90%;
-        max-width: 400px;
-        padding: 14px 20px;
-        border-radius: 15px;
-        font-size: 0.95rem;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 20px;
-        top: auto;
-    }
-
-    .notification.show {
-        top: auto;
-        bottom: 20px;
-    }
-
-    #notificationText {
-        max-width: calc(90vw - 80px);
-        font-size: 0.9rem;
-    }
-
-    .notification-icon {
-        min-width: 20px;
-        width: 20px;
-        height: 20px;
-    }
-
-    .payment-menu-content {
-        width: 95%;
-        height: 90vh;
-        padding: 20px;
-        margin: 10px;
-    }
-
-    .payment-item {
-        padding: 15px;
-        gap: 15px;
-    }
-
-    .payment-item-image {
-        width: 80px;
-        height: 80px;
-        border-radius: 12px;
-    }
-
-    .payment-item-title {
-        font-size: 1.1rem;
-        margin-bottom: 8px;
-    }
-
-    .payment-total {
-        font-size: 1.3rem;
-        padding: 15px;
-        margin: 15px 0;
-    }
-
-    .payment-button-large {
-        padding: 15px;
-        font-size: 1.1rem;
-        border-radius: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 5px;
-    }
-
-    header {
-        padding-top: 120px;
-    }
-
-    h1 {
-        font-size: 1.8rem;
-        width: 200px;
-        line-height: 1.2;
-    }
-
-    .auth-buttons {
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-        top: 15px;
-        right: 15px;
-        padding: 8px;
-    }
-
-    .auth-buttons button {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-    }
-
-    .menu {
-        margin-top: 80px;
-        gap: 10px;
-    }
-
-    .menu button {
-        width: 100%;
-        margin: 0;
-        padding: 12px;
-    }
-
-    .course {
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-
-    .course-image {
-        width: 150px;
-        height: 150px;
-    }
-
-    .course-info h3 {
-        font-size: 1.2rem;
-    }
-
-    .course-info p {
-        font-size: 0.95rem;
-    }
-
-    .price {
-        font-size: 1.2rem;
-    }
-
-    .welcome-message {
-        padding: 15px;
-        margin: 10px auto;
-    }
-
-    .welcome-message p {
-        font-size: 0.9rem;
-    }
-
-    .welcome-message p:first-child {
-        font-size: 1.1rem;
-    }
-
-    .popup-content {
-        padding: 15px;
-    }
-
-    #popupImage {
-        height: 200px;
-    }
-
-    .popup-text h3 {
-        font-size: 1.2rem;
-    }
-
-    .popup-text p {
-        font-size: 0.95rem;
-    }
-
-    .auth-menu-content {
-        padding: 20px;
-    }
-
-    .auth-menu-title {
-        font-size: 1.4rem;
-    }
-
-    .auth-form input,
-    .auth-form button {
-        padding: 12px;
-        font-size: 0.95rem;
-    }
-
-    .notification {
-        width: 85%;
-        padding: 12px 18px;
-        border-radius: 12px;
-        font-size: 0.9rem;
-        bottom: 15px;
-        gap: 10px;
-    }
-
-    .notification.show {
-        bottom: 15px;
-    }
-
-    #notificationText {
-        max-width: calc(85vw - 60px);
-        font-size: 0.85rem;
-    }
-
-    .notification-icon {
-        min-width: 18px;
-        width: 18px;
-        height: 18px;
-    }
-
-    .payment-button {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        bottom: 20px;
-        right: 20px;
-    }
-
-    .total-amount {
-        font-size: 0.9rem;
-        padding: 8px 15px;
-        bottom: 80px;
-        right: 20px;
-    }
-
-    .payment-menu-content {
-        padding: 15px;
-    }
-
-    .payment-item {
-        padding: 12px;
-    }
-
-    .payment-item-image {
-        width: 60px;
-        height: 60px;
-    }
-
-    .payment-item-title {
-        font-size: 1rem;
-    }
-
-    .payment-total {
-        font-size: 1.2rem;
-        padding: 12px;
-    }
-
-    .payment-button-large {
-        padding: 12px;
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 360px) {
-    header {
-        padding-top: 140px;
-    }
-
-    h1 {
-        font-size: 1.6rem;
-        width: 180px;
-    }
-
-    .auth-buttons button {
-        padding: 6px 10px;
-        font-size: 0.85rem;
-    }
-
-    .course-image {
-        width: 120px;
-        height: 120px;
-    }
-
-    .course-info h3 {
-        font-size: 1.1rem;
-    }
-
-    .price {
-        font-size: 1.1rem;
-    }
-
-    .welcome-message p:first-child {
-        font-size: 1rem;
-    }
-
-    .notification {
-        width: 90%;
-        padding: 10px 15px;
-        border-radius: 10px;
-        font-size: 0.85rem;
-        bottom: 10px;
-        gap: 8px;
-    }
-
-    .notification.show {
-        bottom: 10px;
-    }
-
-    #notificationText {
-        max-width: calc(90vw - 50px);
-        font-size: 0.8rem;
-    }
-
-    .notification-icon {
-        min-width: 16px;
-        width: 16px;
-        height: 16px;
-    }
-
-    .notification-icon::before {
-        font-size: 10px;
-    }
-
-    .payment-button {
-        width: 45px;
-        height: 45px;
-        font-size: 18px;
-    }
-
-    .total-amount {
-        font-size: 0.85rem;
-        padding: 6px 12px;
-    }
-}
+.admin-login-content button:hover {
+    background-color: #45a049;
+} 
