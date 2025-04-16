@@ -229,7 +229,7 @@ async function handleRegistration(event) {
     }
 
     const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
-    const response = await fetch("https://tricky-penguin-27.loca.lt/api/register", {
+    const response = await fetch("https://shaggy-goats-rest.loca.lt/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -259,7 +259,7 @@ async function handleLogin(event) {
     if (!validateEmail(email) || !validatePassword(password)) return;
 
     const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
-    const response = await fetch("https://tricky-penguin-27.loca.lt/api/login", {
+    const response = await fetch("https://shaggy-goats-rest.loca.lt/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
