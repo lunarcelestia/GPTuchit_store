@@ -248,17 +248,68 @@ function validatePassword(password) {
     return true;
 }
 
+// Функция для отображения отладочных сообщений на странице
+function debugLog(message) {
+    console.log(message);
+    
+    // Создаем элемент для отображения отладочных сообщений, если его еще нет
+    let debugContainer = document.getElementById('debugContainer');
+    if (!debugContainer) {
+        debugContainer = document.createElement('div');
+        debugContainer.id = 'debugContainer';
+        debugContainer.style.position = 'fixed';
+        debugContainer.style.bottom = '10px';
+        debugContainer.style.left = '10px';
+        debugContainer.style.right = '10px';
+        debugContainer.style.maxHeight = '200px';
+        debugContainer.style.overflowY = 'auto';
+        debugContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        debugContainer.style.color = 'white';
+        debugContainer.style.padding = '10px';
+        debugContainer.style.borderRadius = '5px';
+        debugContainer.style.zIndex = '9999';
+        debugContainer.style.fontSize = '12px';
+        debugContainer.style.fontFamily = 'monospace';
+        document.body.appendChild(debugContainer);
+        
+        // Добавляем кнопку для очистки логов
+        const clearButton = document.createElement('button');
+        clearButton.textContent = 'Очистить логи';
+        clearButton.style.position = 'absolute';
+        clearButton.style.top = '5px';
+        clearButton.style.right = '5px';
+        clearButton.style.padding = '2px 5px';
+        clearButton.style.backgroundColor = 'transparent';
+        clearButton.style.border = '1px solid white';
+        clearButton.style.color = 'white';
+        clearButton.style.cursor = 'pointer';
+        clearButton.onclick = function() {
+            debugContainer.innerHTML = '';
+        };
+        debugContainer.appendChild(clearButton);
+    }
+    
+    // Добавляем сообщение в контейнер
+    const logEntry = document.createElement('div');
+    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+    debugContainer.appendChild(logEntry);
+    
+    // Прокручиваем к последнему сообщению
+    debugContainer.scrollTop = debugContainer.scrollHeight;
+}
+
+// Заменяем console.log на debugLog в ключевых функциях
 function handleRegistration(event) {
     event.preventDefault();
-    console.log("Форма регистрации отправлена");
+    debugLog("Обработка регистрации...");
     
     const form = document.querySelector('#authMenu .auth-form');
     const name = form.querySelector('input[type="text"]').value;
     const email = form.querySelector('input[type="email"]').value;
     const password = form.querySelector('input[type="password"]').value;
-    const confirmPassword = form.querySelector('input[type="password"]')[1].value;
+    const confirmPassword = form.querySelectorAll('input[type="password"]')[1].value;
 
-    console.log("Данные формы:", { name, email, password });
+    debugLog("Данные формы: " + JSON.stringify({ name, email, password: '***' }));
 
     if (!name || name.trim() === '') {
         showNotification('Пожалуйста, введите ваше имя', true);
@@ -279,16 +330,16 @@ function handleRegistration(event) {
     }
 
     // Отправляем данные в бот через Telegram WebApp
-    console.log("Проверка Telegram WebApp:", window.Telegram, window.Telegram?.WebApp);
+    debugLog("Проверка Telegram WebApp: " + (window.Telegram ? "Доступен" : "Недоступен"));
     
     if (window.Telegram && window.Telegram.WebApp) {
         const data = `register:${email}:${password}`;
-        console.log("Отправка данных в бот:", data);
+        debugLog("Отправка данных в бот: register:" + email + ":***");
         window.Telegram.WebApp.sendData(data);
         
         // Добавляем обработчик ответа от бота
         window.Telegram.WebApp.onEvent('message', function(message) {
-            console.log("Получен ответ от бота:", message);
+            debugLog("Получен ответ от бота: " + message);
             if (message.includes("успешно")) {
                 showNotification('Регистрация успешно завершена!');
                 closeAuthMenu();
@@ -297,20 +348,20 @@ function handleRegistration(event) {
             }
         });
     } else {
-        console.error("Telegram WebApp не доступен");
+        debugLog("Ошибка: Telegram WebApp не доступен");
         showNotification('Ошибка: Telegram WebApp не доступен', true);
     }
 }
 
 function handleLogin(event) {
     event.preventDefault();
-    console.log("Форма входа отправлена");
+    debugLog("Обработка входа...");
     
     const form = document.querySelector('#loginMenu .auth-form');
     const email = form.querySelector('input[type="email"]').value;
     const password = form.querySelector('input[type="password"]').value;
 
-    console.log("Данные формы:", { email, password });
+    debugLog("Данные формы: " + JSON.stringify({ email, password: '***' }));
 
     if (!validateEmail(email)) {
         return;
@@ -321,16 +372,16 @@ function handleLogin(event) {
     }
 
     // Отправляем данные в бот через Telegram WebApp
-    console.log("Проверка Telegram WebApp:", window.Telegram, window.Telegram?.WebApp);
+    debugLog("Проверка Telegram WebApp: " + (window.Telegram ? "Доступен" : "Недоступен"));
     
     if (window.Telegram && window.Telegram.WebApp) {
         const data = `login:${email}:${password}`;
-        console.log("Отправка данных в бот:", data);
+        debugLog("Отправка данных в бот: login:" + email + ":***");
         window.Telegram.WebApp.sendData(data);
         
         // Добавляем обработчик ответа от бота
         window.Telegram.WebApp.onEvent('message', function(message) {
-            console.log("Получен ответ от бота:", message);
+            debugLog("Получен ответ от бота: " + message);
             if (message.includes("успешно")) {
                 showNotification('Вход выполнен успешно!');
                 closeLoginMenu();
@@ -339,16 +390,20 @@ function handleLogin(event) {
             }
         });
     } else {
-        console.error("Telegram WebApp не доступен");
+        debugLog("Ошибка: Telegram WebApp не доступен");
         showNotification('Ошибка: Telegram WebApp не доступен', true);
     }
 }
 
 // Добавляем обработчики событий при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
+    debugLog("DOM загружен, инициализация обработчиков...");
+    
     const registerForm = document.querySelector('#authMenu .auth-form');
     const loginForm = document.querySelector('#loginMenu .auth-form');
     const paymentButton = document.getElementById('paymentButton');
+    
+    debugLog("Найдены формы: " + (registerForm ? "Регистрация" : "Нет") + ", " + (loginForm ? "Вход" : "Нет"));
     
     // Отключаем стандартную HTML5 валидацию
     const emailInputs = document.querySelectorAll('input[type="email"]');
@@ -357,9 +412,27 @@ document.addEventListener('DOMContentLoaded', () => {
         input.setAttribute('novalidate', '');
     });
     
-    registerForm.addEventListener('submit', handleRegistration);
-    loginForm.addEventListener('submit', handleLogin);
-    paymentButton.addEventListener('click', handlePayment);
+    if (registerForm) {
+        debugLog("Добавляем обработчик регистрации");
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            debugLog("Форма регистрации отправлена");
+            handleRegistration(e);
+        });
+    }
+    
+    if (loginForm) {
+        debugLog("Добавляем обработчик входа");
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            debugLog("Форма входа отправлена");
+            handleLogin(e);
+        });
+    }
+    
+    if (paymentButton) {
+        paymentButton.addEventListener('click', handlePayment);
+    }
     
     // Запускаем первую проверку видимости
     setTimeout(checkVisibility, 100);
