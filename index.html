@@ -141,19 +141,21 @@
         </div>
     </div>
 
+    <!-- Меню профиля -->
     <div id="profileMenu" class="auth-menu">
         <div class="auth-menu-content">
             <h2 class="auth-menu-title">Личный кабинет</h2>
+            <button class="close-btn" onclick="closeProfileMenu()">&times;</button>
             <div class="profile-info">
                 <div class="profile-avatar">
-                    <img src="https://via.placeholder.com/100" alt="Аватар" id="userAvatar">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23e0e0e0'/%3E%3Ccircle cx='50' cy='35' r='18' fill='%23666666'/%3E%3Cpath d='M25 85 C25 85 25 70 50 70 C75 70 75 85 75 85' fill='%23666666'/%3E%3C/svg%3E" alt="Аватар профиля">
                 </div>
                 <div class="profile-details">
                     <p id="profileName"></p>
                     <p id="profileEmail"></p>
                 </div>
+                <button class="profile-logout-btn" onclick="handleLogout()">Выйти</button>
             </div>
-            <button class="close-btn" onclick="closeProfileMenu()">&times;</button>
         </div>
     </div>
 
