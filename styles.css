@@ -74,20 +74,20 @@ h1 {
     width: 100%;
 }
 
-.menu button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    background-color: #0066cc;
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-}
+    .menu button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background-color: #0066cc;
+        color: white;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+    }
 
-.menu button:hover {
-    background-color: #0052a3;
-}
+        .menu button:hover {
+            background-color: #0052a3;
+        }
 
 .course {
     background-color: var(--secondary-color);
@@ -102,26 +102,24 @@ h1 {
     position: relative;
     opacity: 0;
     transform: translateY(100%);
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.3s ease;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
     z-index: 1;
 }
 
-.course.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+    .course.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-.course.hidden {
-    opacity: 0;
-    transform: translateY(100%);
-}
+    .course.hidden {
+        opacity: 0;
+        transform: translateY(100%);
+    }
 
-.course:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
+    .course:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
 
 .course-image {
     width: 100px;
@@ -135,24 +133,24 @@ h1 {
     flex: 1;
 }
 
-.course-info h3 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
-}
+    .course-info h3 {
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
 
-.course-info p {
-    margin-bottom: 10px;
-    color: var(--text-color);
-}
+    .course-info p {
+        margin-bottom: 10px;
+        color: var(--text-color);
+    }
 
-.course-info p:not(.price) {
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+        .course-info p:not(.price) {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-.course-info p:not(.price):hover {
-    color: #0066cc;
-}
+            .course-info p:not(.price):hover {
+                color: #0066cc;
+            }
 
 .course-popup {
     display: none;
@@ -172,10 +170,10 @@ h1 {
     z-index: 1000;
 }
 
-.course-popup.active {
-    opacity: 1;
-    visibility: visible;
-}
+    .course-popup.active {
+        opacity: 1;
+        visibility: visible;
+    }
 
 .popup-content {
     background: var(--background-color);
@@ -241,9 +239,9 @@ h1 {
     transition: background-color 0.3s;
 }
 
-.popup-content button:hover {
-    background-color: #0052a3;
-}
+    .popup-content button:hover {
+        background-color: #0052a3;
+    }
 
 .welcome-message {
     background-color: var(--secondary-color);
@@ -256,17 +254,17 @@ h1 {
     text-align: center;
 }
 
-.welcome-message p {
-    margin-bottom: 15px;
-    line-height: 1.5;
-    color: var(--text-color);
-}
+    .welcome-message p {
+        margin-bottom: 15px;
+        line-height: 1.5;
+        color: var(--text-color);
+    }
 
-.welcome-message p:first-child {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--primary-color);
-}
+        .welcome-message p:first-child {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
 
 .course-info button {
     padding: 12px;
@@ -280,9 +278,9 @@ h1 {
     margin-top: 10px;
 }
 
-.course-info button:hover {
-    background-color: #0052a3;
-}
+    .course-info button:hover {
+        background-color: #0052a3;
+    }
 
 .auth-buttons {
     display: flex;
@@ -292,14 +290,14 @@ h1 {
     z-index: 2;
 }
 
-.auth-buttons button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
+    .auth-buttons button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
 
 .login-btn {
     background-color: transparent;
@@ -307,19 +305,19 @@ h1 {
     border: 2px solid #0066cc !important;
 }
 
-.login-btn:hover {
-    background-color: #0066cc;
-    color: white;
-}
+    .login-btn:hover {
+        background-color: #0066cc;
+        color: white;
+    }
 
 .register-btn {
     background-color: #0066cc;
     color: white;
 }
 
-.register-btn:hover {
-    background-color: #0052a3;
-}
+    .register-btn:hover {
+        background-color: #0052a3;
+    }
 
 .auth-menu {
     position: fixed;
@@ -339,10 +337,10 @@ h1 {
     z-index: 1000;
 }
 
-.auth-menu.active {
-    opacity: 1;
-    visibility: visible;
-}
+    .auth-menu.active {
+        opacity: 1;
+        visibility: visible;
+    }
 
 .auth-menu-content {
     background: var(--background-color);
@@ -390,35 +388,35 @@ h1 {
     gap: 15px;
 }
 
-.auth-form input {
-    background: var(--secondary-color);
-    color: var(--text-color);
-    border-color: var(--border-color);
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: border-color 0.3s;
-}
+    .auth-form input {
+        background: var(--secondary-color);
+        color: var(--text-color);
+        border-color: var(--border-color);
+        padding: 12px;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
 
-.auth-form input:focus {
-    border-color: #0066cc;
-    outline: none;
-}
+        .auth-form input:focus {
+            border-color: #0066cc;
+            outline: none;
+        }
 
-.auth-form button {
-    background: #0066cc;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
-}
+    .auth-form button {
+        background: #0066cc;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 10px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
 
-.auth-form button:hover {
-    background: #0052a3;
-}
+        .auth-form button:hover {
+            background: #0052a3;
+        }
 
 .auth-menu-footer {
     margin-top: 20px;
@@ -426,11 +424,11 @@ h1 {
     color: #666;
 }
 
-.auth-menu-footer a {
-    color: #0066cc;
-    text-decoration: none;
-    font-weight: bold;
-}
+    .auth-menu-footer a {
+        color: #0066cc;
+        text-decoration: none;
+        font-weight: bold;
+    }
 
 .notification {
     position: fixed;
@@ -457,17 +455,17 @@ h1 {
     visibility: hidden;
 }
 
-.notification.show {
-    top: 20px;
-    opacity: 1;
-    visibility: visible;
-}
+    .notification.show {
+        top: 20px;
+        opacity: 1;
+        visibility: visible;
+    }
 
-.notification.error {
-    background: rgba(220, 53, 69, 0.75);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
+    .notification.error {
+        background: rgba(220, 53, 69, 0.75);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
 
 .notification-icon {
     min-width: 24px;
@@ -482,24 +480,24 @@ h1 {
     transition: all 0.3s ease;
 }
 
-.notification-icon::before {
-    content: '✓';
-    color: white;
-    font-size: 14px;
-    line-height: 1;
-    font-weight: bold;
-}
+    .notification-icon::before {
+        content: '✓';
+        color: white;
+        font-size: 14px;
+        line-height: 1;
+        font-weight: bold;
+    }
 
-.notification-icon.error {
-    background: #fff;
-}
+    .notification-icon.error {
+        background: #fff;
+    }
 
-.notification-icon.error::before {
-    content: '!';
-    color: #dc3545;
-    font-size: 16px;
-    font-weight: bold;
-}
+        .notification-icon.error::before {
+            content: '!';
+            color: #dc3545;
+            font-size: 16px;
+            font-weight: bold;
+        }
 
 #notificationText {
     flex-grow: 1;
@@ -527,10 +525,10 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.total-amount.show {
-    opacity: 1;
-    transform: translateY(0);
-}
+    .total-amount.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
 .payment-button {
     position: fixed;
@@ -552,11 +550,11 @@ h1 {
     z-index: 100;
 }
 
-.payment-button:hover {
-    transform: scale(1.1);
-    background: var(--primary-color);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-}
+    .payment-button:hover {
+        transform: scale(1.1);
+        background: var(--primary-color);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    }
 
 .payment-menu {
     position: fixed;
@@ -576,10 +574,10 @@ h1 {
     z-index: 1000;
 }
 
-.payment-menu.active {
-    opacity: 1;
-    visibility: visible;
-}
+    .payment-menu.active {
+        opacity: 1;
+        visibility: visible;
+    }
 
 .payment-menu-content {
     background: var(--background-color);
@@ -681,9 +679,9 @@ h1 {
     transition: background 0.3s;
 }
 
-.payment-button-large:hover {
-    background: #0052a3;
-}
+    .payment-button-large:hover {
+        background: #0052a3;
+    }
 
 .courses-container {
     display: flex;
@@ -723,24 +721,24 @@ h1 {
     gap: 15px;
 }
 
-.course-info h3 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
-}
+    .course-info h3 {
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
 
-.course-info p {
-    margin-bottom: 10px;
-    color: var(--text-color);
-}
+    .course-info p {
+        margin-bottom: 10px;
+        color: var(--text-color);
+    }
 
-.course-info p:not(.price) {
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+        .course-info p:not(.price) {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-.course-info p:not(.price):hover {
-    color: #0066cc;
-}
+            .course-info p:not(.price):hover {
+                color: #0066cc;
+            }
 
 .theme-toggle {
     position: relative;
@@ -760,40 +758,40 @@ h1 {
     z-index: 2;
 }
 
-.theme-toggle:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-}
+    .theme-toggle:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
 
-.theme-toggle > svg {
-    inline-size: 100%;
-    block-size: 100%;
-    stroke-linecap: round;
-}
+    .theme-toggle > svg {
+        inline-size: 100%;
+        block-size: 100%;
+        stroke-linecap: round;
+    }
 
 .sun-and-moon {
     width: 100%;
     height: 100%;
 }
 
-.sun-and-moon > .sun {
-    fill: #FFD700;
-    transform-origin: center;
-    transition: transform 0.5s ease, fill 0.5s ease;
-}
+    .sun-and-moon > .sun {
+        fill: #FFD700;
+        transform-origin: center;
+        transition: transform 0.5s ease, fill 0.5s ease;
+    }
 
-.sun-and-moon > .sun-beams {
-    stroke: #FFD700;
-    stroke-width: 2px;
-    transform-origin: center;
-    transition: transform 0.5s ease, opacity 0.5s ease;
-}
+    .sun-and-moon > .sun-beams {
+        stroke: #FFD700;
+        stroke-width: 2px;
+        transform-origin: center;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+    }
 
-.sun-and-moon > .moon {
-    transform-origin: center;
-    transition: transform 0.5s ease, opacity 0.5s ease;
-    opacity: 0;
-    transform: translateX(20px) rotate(-120deg) scale(0);
-}
+    .sun-and-moon > .moon {
+        transform-origin: center;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+        opacity: 0;
+        transform: translateX(20px) rotate(-120deg) scale(0);
+    }
 
 .moon-circle {
     fill: #D0D0D0;
@@ -919,10 +917,10 @@ h1 {
         width: 100%;
     }
 
-    .menu button {
-        width: 100%;
-        margin-bottom: 10px;
-    }
+        .menu button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
 
     .course {
         padding: 12px;
@@ -1066,23 +1064,26 @@ html {
     align-items: center;
     z-index: 1000;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    visibility: hidden;
+    transition: all 0.3s ease;
 }
 
 .admin-modal.active {
     opacity: 1;
+    visibility: visible;
 }
 
 .admin-modal-content {
-    background-color: var(--bg-color);
-    border-radius: 8px;
+    background-color: var(--background-color);
+    border-radius: 20px;
     width: 90%;
     max-width: 800px;
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     transform: translateY(-20px);
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 30px;
 }
 
 .admin-modal.active .admin-modal-content {
@@ -1093,13 +1094,16 @@ html {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
 }
 
 .admin-modal-header h2 {
     margin: 0;
-    color: var(--text-color);
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    font-weight: bold;
 }
 
 .admin-modal-close {
@@ -1108,44 +1112,585 @@ html {
     font-size: 24px;
     cursor: pointer;
     color: var(--text-color);
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-modal-close:hover {
+    background-color: var(--secondary-color);
 }
 
 .admin-modal-body {
-    padding: 20px;
+    padding: 0;
+}
+
+.admin-modal-body h3 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
 }
 
 .admin-users-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background-color: var(--background-color);
 }
 
 .admin-users-table th,
 .admin-users-table td {
-    padding: 12px 15px;
+    padding: 15px;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
 }
 
 .admin-users-table th {
-    background-color: var(--secondary-bg-color);
+    background-color: var(--secondary-color);
     font-weight: bold;
+    color: var(--primary-color);
 }
 
 .admin-users-table tr:hover {
-    background-color: var(--secondary-bg-color);
+    background-color: var(--secondary-color);
 }
 
-.admin-btn {
-    background-color: #4a5568;
+.admin-modal-body button {
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
+    padding: 10px 20px;
+    border-radius: 20px;
     cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.admin-modal-body button:hover {
+    background-color: #0052a3;
+}
+
+/* Стиль для кнопки админа в шапке */
+.admin-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
     margin-left: 10px;
 }
 
 .admin-btn:hover {
-    background-color: #2d3748;
+    background-color: #0052a3;
+    transform: translateY(-2px);
+}
+
+/* Добавляем стили для скроллбара в админ-панели */
+.admin-modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.admin-modal-content::-webkit-scrollbar-track {
+    background: var(--secondary-color);
+    border-radius: 4px;
+}
+
+.admin-modal-content::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+.admin-modal-content::-webkit-scrollbar-thumb:hover {
+    background: #0052a3;
+}
+
+@media (max-width: 768px) {
+    .admin-modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .admin-users-table th,
+    .admin-users-table td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Стиль для кнопки с именем пользователя */
+.user-name {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.user-name:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Стили для профиля */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-avatar img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    filter: grayscale(100%);
+}
+
+.profile-details {
+    text-align: center;
+    width: 100%;
+}
+
+.profile-details p {
+    margin: 10px 0;
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+#profileName {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+#profileEmail {
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* Обновляем стили для модального окна профиля */
+#profileMenu.auth-menu .auth-menu-content {
+    background: var(--background-color);
+    max-width: 350px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+#profileMenu .auth-menu-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+#profileMenu .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+#profileMenu .close-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+@media (max-width: 480px) {
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    #profileMenu.auth-menu .auth-menu-content {
+        width: 95%;
+        padding: 20px;
+    }
+}
+
+.profile-logout-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 200px;
+}
+
+.profile-logout-btn:hover {
+    background-color: #0052a3;
+    transform: translateY(-2px);
+}
+
+/* Стили для кнопки оформления заказа */
+.checkout-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin: 20px auto;
+    display: block;
+    width: 100%;
+    max-width: 300px;
+}
+
+.checkout-button:hover {
+    background-color: #0052a3;
+    transform: translateY(-2px);
+}
+
+/* Стили для модального окна оформления заказа */
+.checkout-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.checkout-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.checkout-modal-content {
+    background: var(--background-color);
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.checkout-modal.active .checkout-modal-content {
+    transform: translateY(0);
+}
+
+.checkout-modal h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.checkout-form label {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.checkout-form input {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 1rem;
+    background: var(--background-color);
+    color: var(--text-color);
+}
+
+.checkout-form input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.checkout-submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.checkout-submit-btn:hover {
+    background-color: #0052a3;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+    .checkout-modal-content {
+        padding: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+/* Стили для новой структуры корзины */
+.cart-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.cart-items-large {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cart-item-large {
+    display: flex;
+    gap: 20px;
+    background-color: var(--secondary-color);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cart-item-large:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cart-item-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.cart-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cart-item-info h3 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.cart-item-info p {
+    color: var(--text-color);
+    margin: 0;
+}
+
+.cart-item-info button {
+    align-self: flex-start;
+    padding: 8px 16px;
+    background-color: transparent;
+    color: #dc3545;
+    border: 2px solid #dc3545;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cart-item-info button:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.cart-summary {
+    background-color: var(--secondary-color);
+    padding: 30px;
+    border-radius: 15px;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.summary-title {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.summary-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.summary-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.item-title {
+    font-size: 1.1rem;
+}
+
+.item-price {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.total-sum {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    text-align: right;
+}
+
+.cart-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.view-intro-button {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 12px 24px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.view-intro-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .cart-summary {
+        position: static;
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .cart-item-large {
+        flex-direction: column;
+    }
+
+    .cart-item-image {
+        width: 100%;
+        height: 200px;
+    }
+
+    .cart-item-info {
+        align-items: center;
+        text-align: center;
+    }
+
+    .cart-item-info button {
+        align-self: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-layout {
+        padding: 10px;
+    }
+
+    .cart-item-image {
+        height: 150px;
+    }
+
+    .summary-title {
+        font-size: 1.5rem;
+    }
+
+    .item-title {
+        font-size: 1rem;
+    }
+
+    .total-sum {
+        font-size: 1.4rem;
+    }
 }
