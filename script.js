@@ -4,7 +4,9 @@ const courses = [
         title: "Основы написания промптов",
         description: "Научитесь создавать эффективные промпты для GPT с нуля",
         image: "https://img.freepik.com/free-vector/online-games-concept_23-2148533383.jpg?ga=GA1.1.483021096.1744792171&semt=ais_hybrid&w=740",
-        price: 3000
+        price: 0,
+        isFree: true,
+        freeLink: "https://docs.google.com/document/d/1N4vn6r5BAvhfDTOGeHeOkGWoJs5f-kZK_vCxN6gGaWU/edit?usp=sharing"
     },
     {
         id: 2,
@@ -40,42 +42,32 @@ let cart = [];
 
 function initThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    if (!themeToggle) {
+        console.error('Theme toggle button not found!');
+        return;
+    }
     
     // Проверяем сохраненную тему
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme) {
-        document.documentElement.setAttribute('data-theme', currentTheme);
-    } else if (prefersDarkScheme.matches) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
-    
-    themeToggle.addEventListener('click', () => {
-        let currentTheme = document.documentElement.getAttribute('data-theme');
-        let newTheme;
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    console.log('Initial theme:', savedTheme);
+
+    // Обработчик клика
+    themeToggle.addEventListener('click', (e) => {
+        console.log('Theme toggle clicked');
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
         
-        if (currentTheme === 'dark') {
-            newTheme = 'light';
-            document.documentElement.classList.remove('dark-theme');
-            document.documentElement.classList.add('light-theme');
-        } else {
-            newTheme = 'dark';
-            document.documentElement.classList.remove('light-theme');
-            document.documentElement.classList.add('dark-theme');
-        }
-        
+        // Устанавливаем новую тему
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
+        console.log('Theme changed to:', newTheme);
     });
-
-    // Устанавливаем начальные классы
-    const initialTheme = document.documentElement.getAttribute('data-theme');
-    if (initialTheme === 'dark') {
-        document.documentElement.classList.add('dark-theme');
-    } else {
-        document.documentElement.classList.add('light-theme');
-    }
 }
+
+// Вызываем функцию при загрузке страницы
+document.addEventListener('DOMContentLoaded', initThemeToggle);
 
 function showPage(page) {
     const mainContent = document.getElementById('mainContent');
@@ -151,16 +143,16 @@ function showCoursePopup(course) {
     popupImage.src = course.image;
     popupTitle.textContent = course.title;
     popupDescription.textContent = course.description;
-    popupPrice.textContent = `${course.price} ₽`;
+    popupPrice.textContent = course.isFree ? 'Бесплатно' : `${course.price} ₽`;
     
-    // Сохраняем ID курса в атрибуте data-course-id
+    const button = popup.querySelector('button');
+    button.textContent = 'Добавить в корзину';
+    button.onclick = addToCart;
+    
     popup.dataset.courseId = course.id;
-
-    // Сначала показываем попап
     popup.style.display = 'flex';
     popup.style.visibility = 'visible';
     
-    // Затем добавляем класс active для анимации
     setTimeout(() => {
         popup.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -487,27 +479,89 @@ function displayCart() {
         totalAmountDiv.classList.remove('show');
         return;
     }
-    
-    let totalAmount = 0;
-    
+
+    // Создаем контейнер для новой структуры корзины
+    const cartLayout = document.createElement('div');
+    cartLayout.className = 'cart-layout';
+
+    // Левая часть с большими иконками
+    const leftSection = document.createElement('div');
+    leftSection.className = 'cart-items-large';
     cart.forEach(course => {
-        totalAmount += course.price;
         const courseElement = document.createElement('div');
-        courseElement.className = 'course';
-        
+        courseElement.className = 'cart-item-large';
         courseElement.innerHTML = `
-            <img src="${course.image}" alt="${course.title}" class="course-image">
-            <div class="course-info">
+            <img src="${course.image}" alt="${course.title}" class="cart-item-image">
+            <div class="cart-item-info">
                 <h3>${course.title}</h3>
                 <p>${course.description}</p>
                 <button onclick="removeFromCart(${course.id})">Удалить</button>
             </div>
         `;
-        
-        container.appendChild(courseElement);
+        leftSection.appendChild(courseElement);
     });
 
-    // Показываем кнопку оплаты и общую сумму
+    // Правая часть с итогами
+    const rightSection = document.createElement('div');
+    rightSection.className = 'cart-summary';
+    
+    // Заголовок "Итого"
+    const summaryTitle = document.createElement('h3');
+    summaryTitle.className = 'summary-title';
+    summaryTitle.textContent = 'Итого';
+    rightSection.appendChild(summaryTitle);
+
+    // Список товаров с ценами
+    const itemsList = document.createElement('div');
+    itemsList.className = 'summary-items-list';
+    let totalAmount = 0;
+    cart.forEach(course => {
+        const itemRow = document.createElement('div');
+        itemRow.className = 'summary-item-row';
+        itemRow.innerHTML = `
+            <span class="item-title">${course.title}</span>
+            <span class="item-price">${course.isFree ? 'Бесплатно' : `${course.price} ₽`}</span>
+        `;
+        itemsList.appendChild(itemRow);
+        totalAmount += course.price;
+    });
+    rightSection.appendChild(itemsList);
+
+    // Итоговая сумма
+    const totalSum = document.createElement('div');
+    totalSum.className = 'total-sum';
+    totalSum.textContent = `Итого: ${totalAmount} ₽`;
+    rightSection.appendChild(totalSum);
+
+    // Добавляем кнопки
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.className = 'cart-buttons';
+
+    // Кнопка оформления заказа
+    const checkoutButton = document.createElement('button');
+    checkoutButton.className = 'checkout-button';
+    checkoutButton.textContent = 'Оформить заказ';
+    checkoutButton.onclick = showCheckoutModal;
+    buttonsContainer.appendChild(checkoutButton);
+
+    // Проверяем наличие бесплатного курса
+    const hasFreeIntro = cart.some(course => course.id === 1);
+    if (hasFreeIntro) {
+        const viewIntroButton = document.createElement('button');
+        viewIntroButton.className = 'view-intro-button';
+        viewIntroButton.textContent = 'Посмотреть вводный курс';
+        viewIntroButton.onclick = () => window.open(courses[0].freeLink, '_blank');
+        buttonsContainer.appendChild(viewIntroButton);
+    }
+
+    rightSection.appendChild(buttonsContainer);
+
+    // Собираем всё вместе
+    cartLayout.appendChild(leftSection);
+    cartLayout.appendChild(rightSection);
+    container.appendChild(cartLayout);
+
+    // Обновляем отображение общей суммы
     paymentButton.style.display = 'flex';
     totalAmountDiv.textContent = `Итого: ${totalAmount} ₽`;
     totalAmountDiv.classList.add('show');
@@ -832,4 +886,60 @@ function closeProfileMenu() {
     const profileMenu = document.getElementById('profileMenu');
     profileMenu.classList.remove('active');
     document.body.style.overflow = '';
+}
+
+// Добавляем функцию для отображения модального окна оплаты
+function showCheckoutModal() {
+    const modal = document.createElement('div');
+    modal.className = 'checkout-modal';
+    modal.innerHTML = `
+        <div class="checkout-modal-content">
+            <h2>Оформление заказа</h2>
+            <button class="close-btn" onclick="closeCheckoutModal()">&times;</button>
+            <form class="checkout-form">
+                <div class="form-group">
+                    <label>Номер карты</label>
+                    <input type="text" placeholder="0000 0000 0000 0000" maxlength="19">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Срок действия</label>
+                        <input type="text" placeholder="ММ/ГГ" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="password" placeholder="***" maxlength="3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Имя владельца</label>
+                    <input type="text" placeholder="IVAN IVANOV">
+                </div>
+                <button type="button" class="checkout-submit-btn">Оплатить</button>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Добавляем обработчик для закрытия по клику вне модального окна
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeCheckoutModal();
+        }
+    });
+
+    // Показываем модальное окно
+    setTimeout(() => modal.classList.add('active'), 10);
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCheckoutModal() {
+    const modal = document.querySelector('.checkout-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => {
+            document.body.removeChild(modal);
+            document.body.style.overflow = '';
+        }, 300);
+    }
 }
